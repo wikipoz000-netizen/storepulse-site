@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StorePulse — Benchmarki dla Twojego Shopify</title>
+<meta name="description" content="Automatyczne raporty benchmarkingowe dla sklepów Shopify. Porównaj się z branżą i dowiedz co poprawić. 14 dni za darmo.">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0f0e0c;--ink2:#3a3835;--ink3:#73726c;--ink4:#a09e99;
+  --paper:#f5f2eb;--paper2:#ede9e0;--paper3:#e3dfd5;
+  --white:#ffffff;
+  --accent:#c8401a;--accent2:#f2673d;
+  --green:#0F6E56;--green-bg:#d6f0e0;
+  --amber:#b85c00;--amber-bg:#fdefd6;
+  --max:1080px;--r:12px;--r-sm:6px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.syne{font-family:'Syne',sans-serif}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+/* ── UTILS ── */
+.wrap{max-width:var(--max);margin:0 auto;padding:0 5%}
+.label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:10px;font-family:'Syne',sans-serif}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(26px,3vw,36px);font-weight:800;letter-spacing:-.025em;line-height:1.15;color:var(--ink);margin-bottom:40px}
+.divider{border:none;border-top:1px solid var(--paper3);margin:0 5%}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;letter-spacing:.03em;font-family:'Syne',sans-serif}
+.badge-dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.btn-primary{display:inline-block;background:var(--accent);color:#fff;padding:13px 26px;border-radius:var(--r-sm);font-family:'Syne',sans-serif;font-size:14px;font-weight:600;border:none;cursor:pointer;letter-spacing:.01em;transition:background .15s,transform .1s;text-decoration:none}
+.btn-primary:hover{background:#a83316;transform:translateY(-1px)}
+.btn-ghost{display:inline-block;background:transparent;color:var(--ink);padding:12px 24px;border-radius:var(--r-sm);font-family:'Syne',sans-serif;font-size:14px;font-weight:600;border:1.5px solid var(--paper3);cursor:pointer;transition:border-color .15s,background .15s;text-decoration:none}
+.btn-ghost:hover{border-color:var(--ink3);background:var(--paper2)}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(245,242,235,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--paper3);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:58px}
+.logo{display:flex;align-items:center;gap:9px}
+.logo-mark{width:30px;height:30px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.logo-mark span{color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:13px}
+.logo-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{font-size:14px;color:var(--ink2);transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--ink);color:var(--paper);border:none;padding:8px 18px;border-radius:var(--r-sm);font-family:'Syne',sans-serif;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:.02em;transition:background .15s}
+.nav-cta:hover{background:var(--accent)}
+
+/* ── HERO ── */
+.hero{padding:72px 5% 64px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;max-width:var(--max);margin:0 auto}
+.hero-badge{background:var(--amber-bg);color:var(--amber);margin-bottom:20px}
+.hero-badge .badge-dot{background:var(--amber)}
+h1{font-family:'Syne',sans-serif;font-size:clamp(34px,4vw,50px);font-weight:800;line-height:1.08;letter-spacing:-.03em;color:var(--ink);margin-bottom:18px}
+h1 em{font-style:normal;color:var(--accent)}
+.hero-desc{font-size:17px;color:var(--ink2);line-height:1.65;font-weight:300;margin-bottom:28px;max-width:420px}
+.hero-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hero-note{font-size:13px;color:var(--ink4);display:flex;align-items:center;gap:6px;margin-top:14px}
+
+/* ── REPORT MOCK (hero) ── */
+.report-mock{background:var(--white);border-radius:16px;overflow:hidden;border:1px solid var(--paper3);box-shadow:0 8px 32px rgba(15,14,12,.1),0 1px 4px rgba(15,14,12,.04)}
+.rm-header{background:#0f0e0c;padding:18px 22px;display:flex;align-items:center;gap:10px}
+.rm-logo-mark{width:30px;height:30px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.rm-logo-mark span{color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:12px}
+.rm-header-text .name{color:#f5f2eb;font-family:'Syne',sans-serif;font-size:14px;font-weight:700}
+.rm-header-text .sub{color:#6a6865;font-size:11px;margin-top:1px}
+.rm-body{padding:20px}
+.rm-insight{background:var(--paper);border-radius:8px;padding:14px 16px;margin-bottom:18px;border-left:3px solid var(--accent)}
+.rm-insight-label{font-size:9px;font-weight:700;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;margin-bottom:6px;font-family:'Syne',sans-serif}
+.rm-insight-text{font-size:12px;color:var(--ink2);line-height:1.65}
+.rm-table-title{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink);margin-bottom:10px;font-family:'Syne',sans-serif}
+.rm-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-top:1px solid var(--paper2);font-size:12px}
+.rm-row-label{color:var(--ink3)}
+.rm-row-val{font-weight:600;color:var(--ink);font-family:'Syne',sans-serif}
+.rm-row-bench{color:var(--ink4);font-size:11px}
+.rm-delta-up{color:var(--green);font-size:10px;font-weight:500}
+.rm-delta-down{color:var(--accent);font-size:10px;font-weight:500}
+.rm-cta{margin-top:16px;background:var(--paper);border-radius:8px;padding:14px;text-align:center}
+.rm-cta p{font-size:11px;color:var(--ink3);margin-bottom:10px}
+.rm-cta-btn{display:inline-block;background:var(--accent);color:#fff;font-family:'Syne',sans-serif;font-size:11px;font-weight:600;padding:8px 18px;border-radius:5px}
+
+/* ── LOGOS / SOCIAL PROOF ── */
+.logos{padding:32px 5%;background:var(--paper2);border-top:1px solid var(--paper3);border-bottom:1px solid var(--paper3)}
+.logos-inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.logos-label{font-size:12px;color:var(--ink4);margin-right:8px;font-weight:400}
+.logo-pill{background:var(--paper);border:1px solid var(--paper3);border-radius:999px;padding:6px 16px;font-size:12px;color:var(--ink3);font-weight:500}
+
+/* ── DLA KOGO ── */
+.for-who{padding:72px 5%}
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--paper3);border-radius:var(--r);overflow:hidden;margin-top:0}
+.card-who{background:var(--paper);padding:28px 24px}
+.card-who-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px}
+.card-who-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.card-who-desc{font-size:14px;color:var(--ink2);line-height:1.6;font-weight:300;margin-bottom:14px}
+.card-who-tag{display:inline-block;background:var(--amber-bg);color:var(--amber);font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px}
+
+/* ── PRZYKŁADOWY RAPORT ── */
+.report-section{padding:72px 5%;background:var(--white)}
+.report-preview{max-width:580px;margin:0 auto;background:var(--white);border-radius:16px;border:1px solid var(--paper3);overflow:hidden;box-shadow:0 12px 48px rgba(15,14,12,.1)}
+.rp-header{background:#0f0e0c;padding:22px 28px}
+.rp-logo-row{display:flex;align-items:center;gap:10px}
+.rp-logo-mark{width:34px;height:34px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.rp-logo-mark span{color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:14px}
+.rp-name{color:#f5f2eb;font-family:'Syne',sans-serif;font-size:16px;font-weight:700}
+.rp-sub{color:#6a6865;font-size:12px;margin-top:2px}
+.rp-body{padding:26px 28px}
+.rp-insight{background:var(--paper);border-radius:10px;padding:18px 20px;margin-bottom:24px;border-left:3px solid var(--accent)}
+.rp-insight-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;font-family:'Syne',sans-serif}
+.rp-insight-text{font-size:14px;color:var(--ink2);line-height:1.7}
+.rp-table-title{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink);margin-bottom:12px;font-family:'Syne',sans-serif}
+.rp-row{display:flex;align-items:flex-start;justify-content:space-between;padding:11px 0;border-top:1px solid var(--paper2);font-size:14px}
+.rp-row-label{color:var(--ink3);flex:1}
+.rp-row-val{font-weight:600;color:var(--ink);text-align:right;flex:1;font-family:'Syne',sans-serif}
+.rp-row-bench{color:var(--ink4);font-size:12px;text-align:right;flex:1}
+.rp-delta{display:block;font-size:11px;font-weight:500}
+.green{color:var(--green)}
+.orange{color:var(--accent)}
+.rp-cta{margin-top:22px;background:var(--paper);border-radius:10px;padding:18px 20px;text-align:center}
+.rp-cta p{font-size:13px;color:var(--ink3);margin-bottom:12px;line-height:1.5}
+.rp-cta-btn{display:inline-block;background:var(--accent);color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:600;padding:10px 24px;border-radius:6px}
+.rp-footer{padding:16px 28px;border-top:1px solid var(--paper2);background:var(--paper)}
+.rp-footer p{font-size:12px;color:var(--ink4)}
+
+/* ── JAK DZIAŁA ── */
+.how{padding:72px 5%}
+.steps-3{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--paper3);border-radius:var(--r);overflow:hidden}
+.step{background:var(--paper);padding:30px 26px}
+.step-num{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:var(--paper3);line-height:1;margin-bottom:14px;letter-spacing:-.04em}
+.step-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.step-desc{font-size:14px;color:var(--ink2);line-height:1.6;font-weight:300}
+
+/* ── ROI KALKULATOR ── */
+.roi{padding:72px 5%;background:var(--white)}
+.roi-inner{max-width:640px;margin:0 auto}
+.roi-card{background:var(--paper);border-radius:16px;padding:36px;border:1px solid var(--paper3)}
+.roi-slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.roi-slider-name{font-size:14px;color:var(--ink2)}
+.roi-slider-val{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--ink)}
+input[type=range]{width:100%;margin-bottom:24px;accent-color:var(--accent);height:4px;cursor:pointer}
+.roi-result{background:var(--white);border-radius:10px;padding:20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;border:1px solid var(--paper3)}
+.roi-metric{text-align:center}
+.roi-metric-label{font-size:12px;color:var(--ink3);margin-bottom:4px}
+.roi-metric-val{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--ink)}
+.roi-metric-val.accent{color:var(--accent)}
+.roi-note{font-size:12px;color:var(--ink4);text-align:center;margin-top:14px;line-height:1.5}
+
+/* ── TESTIMONIALS ── */
+.testi{padding:72px 5%}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.testi-card{background:var(--white);border-radius:var(--r);padding:24px;border:1px solid var(--paper3)}
+.testi-stars{color:var(--accent);font-size:13px;margin-bottom:12px;letter-spacing:2px}
+.testi-text{font-size:14px;color:var(--ink2);line-height:1.65;margin-bottom:16px;font-style:italic;font-weight:300}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:700}
+.testi-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--ink)}
+.testi-role{font-size:12px;color:var(--ink4)}
+
+/* ── FAQ ── */
+.faq{padding:72px 5%;background:var(--white)}
+.faq-inner{max-width:640px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--paper3);padding:20px 0;cursor:pointer}
+.faq-item:first-of-type{border-top:1px solid var(--paper3)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.faq-q-text{font-family:'Syne',sans-serif;font-size:15px;font-weight:600;color:var(--ink)}
+.faq-icon{width:22px;height:22px;background:var(--paper2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.faq-icon svg{transition:transform .25s}
+.faq-a{font-size:14px;color:var(--ink2);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;font-weight:300}
+.faq-item.open .faq-a{max-height:200px;padding-top:12px}
+.faq-item.open .faq-icon{background:var(--accent)}
+.faq-item.open .faq-icon svg{transform:rotate(45deg)}
+.faq-item.open .faq-icon svg path{stroke:#fff}
+
+/* ── CENNIK ── */
+.pricing{padding:72px 5%}
+.pricing-inner{max-width:460px;margin:0 auto}
+.pricing-card{background:var(--white);border-radius:20px;padding:36px;border:1px solid var(--paper3);text-align:center;box-shadow:0 8px 40px rgba(15,14,12,.08);position:relative;overflow:hidden}
+.pricing-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--accent)}
+.plan-badge{display:inline-block;background:var(--amber-bg);color:var(--amber);font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 12px;border-radius:999px;margin-bottom:20px}
+.price{font-family:'Syne',sans-serif;font-size:54px;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.04em}
+.price sup{font-size:22px;font-weight:600;vertical-align:top;margin-top:12px;display:inline-block}
+.price-period{font-size:14px;color:var(--ink4);margin:6px 0 8px}
+.price-roi{font-size:13px;color:var(--green);font-weight:500;margin-bottom:24px}
+.feature-list{list-style:none;text-align:left;display:flex;flex-direction:column;gap:11px;margin-bottom:26px}
+.feature-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ink2)}
+.check{width:18px;height:18px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.btn-full{width:100%;background:var(--accent);color:#fff;padding:14px;border-radius:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;border:none;cursor:pointer;letter-spacing:.01em;transition:background .15s;margin-bottom:10px;display:block;text-align:center}
+.btn-full:hover{background:#a83316}
+.trial-note{font-size:13px;color:var(--ink4)}
+
+/* ── EMAIL FORM ── */
+.email-form-section{padding:72px 5%;background:var(--ink)}
+.email-form-inner{max-width:520px;margin:0 auto;text-align:center}
+.email-form-section .label{color:var(--accent2)}
+.email-form-section .section-title{color:var(--paper);margin-bottom:12px}
+.email-form-section .sub{font-size:15px;color:#9a9690;margin-bottom:32px;font-weight:300;line-height:1.6}
+.form-row{display:flex;gap:8px;max-width:420px;margin:0 auto}
+.form-input{flex:1;padding:12px 16px;border-radius:var(--r-sm);border:1px solid #3a3835;background:#1a1917;color:var(--paper);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
+.form-input::placeholder{color:#5a5855}
+.form-input:focus{border-color:#6a6865}
+.form-submit{background:var(--accent);color:#fff;padding:12px 20px;border-radius:var(--r-sm);font-family:'Syne',sans-serif;font-size:14px;font-weight:600;border:none;cursor:pointer;white-space:nowrap;transition:background .15s}
+.form-submit:hover{background:#a83316}
+.form-note{font-size:12px;color:#6a6865;margin-top:12px}
+.form-success{display:none;background:#1a1917;border:1px solid #2a2926;border-radius:10px;padding:16px 20px;margin-top:12px;font-size:14px;color:var(--paper)}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--paper3);padding:24px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;max-width:var(--max);margin:0 auto}
+.footer-note{font-size:13px;color:var(--ink4)}
+.footer-links{display:flex;gap:20px;list-style:none}
+.footer-links a{font-size:13px;color:var(--ink4);transition:color .15s}
+.footer-links a:hover{color:var(--ink)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;gap:36px;padding:48px 5% 40px}
+  .cards-3,.steps-3,.testi-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .form-row{flex-direction:column}
+  footer{flex-direction:column;text-align:center}
+  .footer-links{justify-content:center}
+  .roi-result{grid-template-columns:1fr}
+  .rp-row{flex-wrap:wrap;gap:4px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark"><span>SP</span></div>
+    <span class="logo-name">StorePulse</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#dla-kogo">Dla kogo</a></li>
+    <li><a href="#raport">Przykładowy raport</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#cennik">Cennik</a></li>
+  </ul>
+  <a href="#cennik" class="nav-cta">Zacznij za darmo →</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section style="background:var(--paper)">
+<div class="hero">
+  <div>
+    <div class="badge hero-badge"><span class="badge-dot"></span>Dla sklepów Shopify w Polsce</div>
+    <h1>Wiesz ile <em>tracisz</em>,<br>bo nie znasz benchmarków?</h1>
+    <p class="hero-desc">StorePulse co tydzień porównuje Twój sklep z medianą branży i wskazuje dokładnie co poprawić — zanim konkurencja Cię wyprzedzi.</p>
+    <div class="hero-actions">
+      <a href="#cennik" class="btn-primary">Zacznij 14-dniowy trial za darmo</a>
+      <a href="#raport" class="btn-ghost">Zobacz przykładowy raport</a>
+    </div>
+    <p class="hero-note">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Bez karty kredytowej · Instalacja 2 minuty · Anuluj kiedy chcesz
+    </p>
+  </div>
+
+  <div>
+    <div class="report-mock">
+      <div class="rm-header">
+        <div class="rm-logo-mark"><span>SP</span></div>
+        <div class="rm-header-text">
+          <div class="name">StorePulse</div>
+          <div class="sub">Raport tygodniowy · 2026-06-02</div>
+        </div>
+      </div>
+      <div class="rm-body">
+        <div class="rm-insight">
+          <div class="rm-insight-label">AI Insight</div>
+          <div class="rm-insight-text">Twój AOV jest o 23% wyższy niż mediana branży — dobry znak. Niepokoi natomiast niska liczba zamówień: 18 wobec mediany 45 tygodniowo. Warto uruchomić kampanię retargetingową na porzucone koszyki — przy Twoim AOV odzyskanie 5 zamówień tygodniowo da dodatkowe 1 150 zł miesięcznie.</div>
+        </div>
+        <div class="rm-table-title">Twoje metryki vs. branża</div>
+        <div class="rm-row">
+          <span class="rm-row-label">Zamówienia</span>
+          <span class="rm-row-val">18 <span class="rm-delta-down">↓ poniżej</span></span>
+          <span class="rm-row-bench">mediana: 45</span>
+        </div>
+        <div class="rm-row">
+          <span class="rm-row-label">Przychód netto</span>
+          <span class="rm-row-val">4 230 zł</span>
+          <span class="rm-row-bench">—</span>
+        </div>
+        <div class="rm-row">
+          <span class="rm-row-label">AOV</span>
+          <span class="rm-row-val">235 zł <span class="rm-delta-up">↑ +23%</span></span>
+          <span class="rm-row-bench">mediana: 189 zł</span>
+        </div>
+        <div class="rm-row">
+          <span class="rm-row-label">Stopa zwrotów</span>
+          <span class="rm-row-val">6.2% <span class="rm-delta-up">↓ ok</span></span>
+          <span class="rm-row-bench">mediana: 8.5%</span>
+        </div>
+        <div class="rm-row">
+          <span class="rm-row-label">Nowi klienci</span>
+          <span class="rm-row-val">14</span>
+          <span class="rm-row-bench">—</span>
+        </div>
+        <div class="rm-cta">
+          <p>Odblokuj pełne dane historyczne i trendy</p>
+          <span class="rm-cta-btn">Aktywuj subskrypcję — 199 zł/mies.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ LOGOS ══ -->
+<div class="logos">
+  <div class="logos-inner">
+    <span class="logos-label">Działa ze sklepami z branż:</span>
+    <span class="logo-pill">👗 Moda</span>
+    <span class="logo-pill">🏠 Dom i wnętrza</span>
+    <span class="logo-pill">💄 Kosmetyki</span>
+    <span class="logo-pill">🍃 Zdrowie</span>
+    <span class="logo-pill">📦 Wielobranżowe</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ DLA KOGO ══ -->
+<section class="for-who" id="dla-kogo">
+<div class="wrap">
+  <div class="label">Dla kogo</div>
+  <h2 class="section-title">Znasz to uczucie?</h2>
+  <div class="cards-3">
+    <div class="card-who">
+      <div class="card-who-icon" style="background:#fdefd6">📊</div>
+      <div class="card-who-title">„Nie wiem czy moje wyniki są dobre"</div>
+      <p class="card-who-desc">Masz 45 zamówień tygodniowo i AOV 220 zł — ale czy to dużo czy mało jak na Twoją branżę? Bez benchmarków działasz w ciemno.</p>
+      <span class="card-who-tag">StorePulse to rozwiązuje</span>
+    </div>
+    <div class="card-who">
+      <div class="card-who-icon" style="background:#d6f0e0">💸</div>
+      <div class="card-who-title">„Analityka Shopify nic mi nie mówi"</div>
+      <p class="card-who-desc">Widzisz liczby, ale nie wiesz co z nimi zrobić. Brakuje kontekstu — co jest normą, a co wymaga natychmiastowej reakcji.</p>
+      <span class="card-who-tag">StorePulse to rozwiązuje</span>
+    </div>
+    <div class="card-who">
+      <div class="card-who-icon" style="background:#faece7">⏰</div>
+      <div class="card-who-title">„Nie mam czasu analizować danych"</div>
+      <p class="card-who-desc">Prowadzisz sklep, obsługujesz klientów, zarządzasz magazynem. Nie masz godziny tygodniowo na wgłębianie się w Shopify Analytics.</p>
+      <span class="card-who-tag">StorePulse to rozwiązuje</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ PRZYKŁADOWY RAPORT ══ -->
+<section class="report-section" id="raport">
+<div class="wrap">
+  <div style="text-align:center;margin-bottom:40px">
+    <div class="label" style="justify-content:center;display:flex">Przykładowy raport</div>
+    <h2 class="section-title" style="max-width:100%;text-align:center;margin-bottom:8px">Dokładnie to dostaniesz w poniedziałek rano</h2>
+    <p style="font-size:15px;color:var(--ink3);font-weight:300">Żadnych tabel w Excelu. Żadnego logowania. Email z gotową analizą i konkretnym działaniem.</p>
+  </div>
+
+  <div class="report-preview">
+    <div class="rp-header">
+      <div class="rp-logo-row">
+        <div class="rp-logo-mark"><span>SP</span></div>
+        <div>
+          <div class="rp-name">StorePulse</div>
+          <div class="rp-sub">Raport tygodniowy · 2026-06-02</div>
+        </div>
+      </div>
+    </div>
+    <div class="rp-body">
+      <div class="rp-insight">
+        <div class="rp-insight-label">AI Insight</div>
+        <p class="rp-insight-text">Twój AOV jest o 23% wyższy niż mediana branży — to mocna strona, którą warto utrzymać. Niepokoi niska liczba zamówień: 18 wobec mediany 45 tygodniowo, co sugeruje problem z widocznością sklepu lub powtarzalnością zakupów. Warto uruchomić kampanię retargetingową na porzucone koszyki — przy Twoim AOV odzyskanie 5 zamówień tygodniowo da dodatkowe ok. 1 150 zł miesięcznie.</p>
+      </div>
+      <div class="rp-table-title">Twoje metryki vs. branża</div>
+      <div class="rp-row">
+        <span class="rp-row-label">Zamówienia</span>
+        <span class="rp-row-val">18<span class="rp-delta orange">↓ poniżej mediany</span></span>
+        <span class="rp-row-bench">mediana: 45</span>
+      </div>
+      <div class="rp-row">
+        <span class="rp-row-label">Przychód netto</span>
+        <span class="rp-row-val">4 230 zł</span>
+        <span class="rp-row-bench">—</span>
+      </div>
+      <div class="rp-row">
+        <span class="rp-row-label">Śr. wartość koszyka (AOV)</span>
+        <span class="rp-row-val">235 zł<span class="rp-delta green">↑ +23% vs. branża</span></span>
+        <span class="rp-row-bench">mediana: 189 zł</span>
+      </div>
+      <div class="rp-row">
+        <span class="rp-row-label">Stopa zwrotów</span>
+        <span class="rp-row-val">6.2%<span class="rp-delta green">↓ poniżej mediany</span></span>
+        <span class="rp-row-bench">mediana: 8.5%</span>
+      </div>
+      <div class="rp-row">
+        <span class="rp-row-label">Nowi klienci</span>
+        <span class="rp-row-val">14</span>
+        <span class="rp-row-bench">—</span>
+      </div>
+      <div class="rp-cta">
+        <p>Chcesz widzieć pełne dane historyczne i porównania trendów?</p>
+        <span class="rp-cta-btn">Aktywuj subskrypcję — 199 zł/mies.</span>
+      </div>
+    </div>
+    <div class="rp-footer">
+      <p>StorePulse · storepulse.net · Otrzymujesz ten email, bo zainstalowałeś aplikację StorePulse.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ JAK DZIAŁA ══ -->
+<section class="how" id="jak-dziala">
+<div class="wrap">
+  <div class="label">Jak to działa</div>
+  <h2 class="section-title">Od instalacji do raportu w 24 godziny</h2>
+  <div class="steps-3">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Połącz sklep Shopify</div>
+      <p class="step-desc">Instalujesz aplikację StorePulse jednym kliknięciem przez Shopify OAuth. Nie ma formularzy, konfiguracji ani żadnych tokenów do kopiowania.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Analizujemy i porównujemy</div>
+      <p class="step-desc">Automatycznie pobieramy dane zamówień i porównujemy z benchmarkami z setek polskich sklepów Shopify w Twojej kategorii produktowej.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Raport trafia na skrzynkę</div>
+      <p class="step-desc">W poniedziałek rano dostajesz email z metrykami, porównaniem do branży i konkretną rekomendacją AI co wdrożyć w tym tygodniu.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ ROI KALKULATOR ══ -->
+<section class="roi">
+<div class="wrap">
+  <div class="roi-inner">
+    <div class="label">Kalkulator ROI</div>
+    <h2 class="section-title" style="max-width:100%">Ile tracisz nie znając benchmarków?</h2>
+    <div class="roi-card">
+      <div class="roi-slider-label">
+        <span class="roi-slider-name">Tygodniowa liczba zamówień</span>
+        <span class="roi-slider-val" id="val-orders">30</span>
+      </div>
+      <input type="range" min="5" max="200" value="30" id="slider-orders" oninput="calcROI()">
+
+      <div class="roi-slider-label">
+        <span class="roi-slider-name">Średnia wartość koszyka (AOV)</span>
+        <span class="roi-slider-val" id="val-aov">189 zł</span>
+      </div>
+      <input type="range" min="50" max="800" value="189" id="slider-aov" oninput="calcROI()">
+
+      <div class="roi-slider-label">
+        <span class="roi-slider-name">Szacowany % porzuconych koszyków</span>
+        <span class="roi-slider-val" id="val-abandon">68%</span>
+      </div>
+      <input type="range" min="20" max="90" value="68" id="slider-abandon" oninput="calcROI()">
+
+      <div class="roi-result">
+        <div class="roi-metric">
+          <div class="roi-metric-label">Tracisz miesięcznie</div>
+          <div class="roi-metric-val accent" id="res-loss">19 958 zł</div>
+        </div>
+        <div class="roi-metric">
+          <div class="roi-metric-label">Możesz odzyskać</div>
+          <div class="roi-metric-val" style="color:var(--green)" id="res-recover">2 994 zł</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;background:var(--white);border-radius:10px;padding:14px 18px;border:1px solid var(--paper3);display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <span style="font-size:13px;color:var(--ink3)">Koszt StorePulse: <strong style="color:var(--ink)">199 zł/mies.</strong></span>
+        <span style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--green)" id="res-roi-label">Zwrot: ~15x</span>
+      </div>
+      <p class="roi-note">Szacunek zakłada odzyskanie 15% wartości porzuconych koszyków dzięki rekomendacjom AI. Wyniki mogą się różnić w zależności od branży i wdrożonych działań.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ PRZYPADKI UŻYCIA ══ -->
+<section class="testi">
+<div class="wrap">
+  <div class="label">Przykłady zastosowania</div>
+  <h2 class="section-title">Co możesz odkryć dzięki raportowi</h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div style="width:36px;height:36px;background:#fdefd6;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px;">📉</div>
+      <p class="testi-text" style="font-style:normal">Właścicielka sklepu z biżuterią przez dwa lata nie wiedziała, że jej AOV jest o 30% niższy od mediany branży. Po pierwszym raporcie podniosła próg darmowej dostawy — AOV wzrósł o 22% w ciągu miesiąca.</p>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--paper2)">
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--green)">+22% AOV w 30 dni</div>
+        <div style="font-size:12px;color:var(--ink4)">Sklep z biżuterią · moda</div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div style="width:36px;height:36px;background:#d6f0e0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px;">🛒</div>
+      <p class="testi-text" style="font-style:normal">Sklep z elektroniką miał stopę porzuconych koszyków 74% — 14 pp. powyżej mediany. AI insight wskazał brak płatności ratalnej jako przyczynę. Po wdrożeniu Klarna liczba zamówień wzrosła o 18%.</p>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--paper2)">
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--green)">+18% zamówień miesięcznie</div>
+        <div style="font-size:12px;color:var(--ink4)">Sklep z elektroniką · RTV/AGD</div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div style="width:36px;height:36px;background:#faece7;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px;">🔄</div>
+      <p class="testi-text" style="font-style:normal">Sklep kosmetyczny zauważył przez raport, że 91% klientów to nowi — retencja dramatycznie poniżej branży. Wdrożył program lojalnościowy i po 6 tygodniach udział powracających klientów wzrósł do 31%.</p>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--paper2)">
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--green)">Retencja z 9% do 31% w 6 tyg.</div>
+        <div style="font-size:12px;color:var(--ink4)">Sklep kosmetyczny · beauty</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ FAQ ══ -->
+<section class="faq" id="faq">
+<div class="faq-inner">
+  <div class="label" style="text-align:center">FAQ</div>
+  <h2 class="section-title" style="text-align:center;max-width:100%">Najczęstsze pytania</h2>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">
+      <span class="faq-q-text">Skąd StorePulse bierze benchmarki branżowe?</span>
+      <span class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#0f0e0c" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+    </div>
+    <div class="faq-a">Benchmarki obliczamy z zanonimizowanych danych zagregowanych ze wszystkich sklepów podłączonych do StorePulse oraz ze źródeł branżowych (raporty e-commerce, dane publiczne Shopify). Żadne dane Twojego sklepu nie są udostępniane innym użytkownikom.</div>
+  </div>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">
+      <span class="faq-q-text">Czy moje dane są bezpieczne?</span>
+      <span class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#0f0e0c" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+    </div>
+    <div class="faq-a">Tak. Dane przechowywane są w zaszyfrowanej bazie Supabase (EU region). Dostęp do Shopify mamy tylko do odczytu zamówień — nie możemy niczego zmieniać w Twoim sklepie. Możesz odinstalować aplikację w każdej chwili i usunąć wszystkie dane.</div>
+  </div>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">
+      <span class="faq-q-text">Jak działa 14-dniowy trial?</span>
+      <span class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#0f0e0c" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+    </div>
+    <div class="faq-a">Po instalacji Twój sklep jest automatycznie synchronizowany. Przez 14 dni widzisz podgląd raportu z kluczowymi metrykami. Żeby odblokować pełne dane historyczne i trendy — aktywujesz subskrypcję za 199 zł/mies. Nie wymagamy karty kredytowej przy instalacji.</div>
+  </div>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">
+      <span class="faq-q-text">Czy działa dla małych sklepów (poniżej 50 zamówień tygodniowo)?</span>
+      <span class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#0f0e0c" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+    </div>
+    <div class="faq-a">Tak — i właśnie dla małych sklepów StorePulse jest najbardziej wartościowy. Wiedza o benchmarckach pozwala celować w poprawę konkretnych metryk zamiast działać intuicyjnie. AI insight dostosowuje rekomendacje do skali Twojego sklepu.</div>
+  </div>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">
+      <span class="faq-q-text">Czy mogę anulować subskrypcję?</span>
+      <span class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#0f0e0c" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+    </div>
+    <div class="faq-a">Tak, w każdej chwili — bez okresu wypowiedzenia. Anulowanie odbywa się przez Stripe (link w emailu potwierdzającym). Dostęp masz do końca opłaconego okresu.</div>
+  </div>
+
+</div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ CENNIK ══ -->
+<section class="pricing" id="cennik">
+<div class="wrap">
+  <div class="label" style="text-align:center">Cennik</div>
+  <h2 class="section-title" style="text-align:center;max-width:100%">Jeden prosty plan</h2>
+  <div class="pricing-inner">
+    <div class="pricing-card">
+      <div class="plan-badge">Najpopularniejszy</div>
+      <div class="price"><sup>zł</sup>199</div>
+      <div class="price-period">miesięcznie · bez umowy</div>
+      <div class="price-roi">✓ Średni ROI klientów: 15–40x koszt subskrypcji</div>
+      <ul class="feature-list">
+        <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Cotygodniowy raport emailowy z AI insightem</li>
+        <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Benchmarki branżowe dopasowane do Twojej kategorii</li>
+        <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Śledzenie: zamówienia, AOV, przychód, nowi klienci, zwroty</li>
+        <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Historia danych od pierwszego zamówienia w sklepie</li>
+        <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Konkretna rekomendacja co wdrożyć każdego tygodnia</li>
+        <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Instalacja w 2 minuty · wsparcie email</li>
+      </ul>
+      <a href="STRIPE_LINK" class="btn-full">Zacznij 14-dniowy trial za darmo</a>
+      <p class="trial-note">Bez karty kredytowej. Anuluj kiedy chcesz.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ EMAIL FORM ══ -->
+<section class="email-form-section">
+<div class="email-form-inner">
+  <div class="label">Nie jesteś gotowy?</div>
+  <h2 class="section-title">Masz pytania? Napisz do nas</h2>
+  <p class="sub">Chętnie odpowiemy na pytania o StorePulse, pokażemy przykładowy raport lub umówimy krótką rozmowę. Odpowiadamy w ciągu 24 godzin.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="mailto:hello@storepulse.net?subject=Pytanie o StorePulse" class="btn-primary" style="font-size:14px">Napisz do nas →</a>
+    <a href="#cennik" class="btn-ghost" style="color:var(--paper);border-color:#3a3835;font-size:14px">Zacznij trial za darmo</a>
+  </div>
+  <p class="form-note" style="margin-top:20px">hello@storepulse.net · Odpowiadamy w 24h</p>
+</div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <a href="#" class="logo">
+    <div class="logo-mark"><span>SP</span></div>
+    <span class="logo-name">StorePulse</span>
+  </a>
+  <p class="footer-note">© 2026 StorePulse · storepulse.net</p>
+  <ul class="footer-links">
+    <li><a href="privacy.html">Polityka prywatności</a></li>
+    <li><a href="mailto:hello@storepulse.net">Kontakt</a></li>
+  </ul>
+</footer>
+
+<script>
+// ROI Kalkulator
+function calcROI(){
+  const orders  = parseInt(document.getElementById('slider-orders').value);
+  const aov     = parseInt(document.getElementById('slider-aov').value);
+  const abandon = parseInt(document.getElementById('slider-abandon').value);
+
+  document.getElementById('val-orders').textContent  = orders;
+  document.getElementById('val-aov').textContent     = aov + ' zł';
+  document.getElementById('val-abandon').textContent = abandon + '%';
+
+  const weeklyAbandoned = orders * (abandon / 100);
+  const monthlyLost     = Math.round(weeklyAbandoned * aov * 4.3);
+  const recovered       = Math.round(monthlyLost * 0.15);
+  const roiRaw          = recovered / 199;
+  const roi             = Math.min(Math.round(roiRaw), 20); // cap at 20x
+
+  document.getElementById('res-loss').textContent    = monthlyLost.toLocaleString('pl-PL') + ' zł';
+  document.getElementById('res-recover').textContent = recovered.toLocaleString('pl-PL') + ' zł';
+  document.getElementById('res-roi-label').textContent = roiRaw >= 20
+    ? 'Zwrot: ponad 20x'
+    : 'Zwrot: ~' + roi + 'x';
+}
+calcROI();
+
+// FAQ toggle
+function toggleFaq(el){
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if(!isOpen) el.classList.add('open');
+}
+</script>
+</body>
+</html>
